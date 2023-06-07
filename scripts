@@ -1,3 +1,23 @@
+## Is analytics for 'pageview' ready? 
+
+return new Promise((r) => { 
+  setTimeout(() => { 
+    window.analytics.ready.then(()=> { 
+    const flag = window.analytics.analytics.getState("track")?.history.filter((entry)=> entry.event === "page-view")
+        if ( flag !== undefined && flag?.length >= 1 ) {
+            r(true) 
+        } else { 
+         window.analytics.analytics.once("track", ({payload})=>{ 
+               r(payload.type === "track" && payload.event === "page-view")               
+         })  
+        
+        } 
+
+    }) 
+  }, 5000);
+}) 
+
+
 ## Listen for outgoing http calls: 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
