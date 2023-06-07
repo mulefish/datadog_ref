@@ -1,3 +1,20 @@
+## Is the weather endpoint ok? The page we are now on is just a ball of json
+function getYYYYMMDD() {
+var date = new Date() 
+  var year = date.getFullYear()
+  var month = (date.getMonth() + 1).toString().padStart(2, '0')
+  var day = date.getDate().toString().padStart(2, '0')
+  return year + month + day
+}
+var substring = getYYYYMMDD()
+var pageContent = document.body.innerHTML  
+  if (pageContent.includes(substring)) {
+    return true
+  } else { 
+  return false
+  }
+
+
 ## Is analytics for 'pageview' ready? 
 
 return new Promise((r) => { 
