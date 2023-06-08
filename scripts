@@ -1,4 +1,8 @@
-## Is the weather endpoint ok? The page we are now on is just a ball of json
+########################################################## 
+###### Is the weather endpoint ok? The page we are now on is just a ball of json
+########################################################## 
+
+
 function getYYYYMMDD() {
 var date = new Date() 
   var year = date.getFullYear()
@@ -35,7 +39,10 @@ return new Promise((r) => {
 }) 
 
 
-## Listen for outgoing http calls: 
+########################################################## 
+###### Datadog for listening to outgoing http calls: 
+########################################################## 
+
 const needed=[
 //"https://googleads.g.doubleclick.net",
 //"https://adservice.google.com/ddm"
@@ -84,7 +91,10 @@ console.error("found " + found.length + "  needed " + needed.length + "   isOk "
 }
 return isOk
 
+########################################################## 
 ###### A selinium script: 
+########################################################## 
+
 from seleniumwire import webdriver  # Import from seleniumwire
 from common import cyan, green,yellow,magenta
 import time
@@ -143,3 +153,24 @@ if __name__ == "__main__":
         elapsed_time = end_time - start_time
         cyan("{} {} ".format(elapsed_time, x))
     finish()
+    
+    
+########################################################## 
+########### TDD datadog func! 
+########################################################## 
+
+//// Mock: window.performance.getEntriesByType("foo")
+const window = {
+    performance: {
+        getEntriesByType: () => [{name:"dpm.demdex.net"}, {name:"abc.com"}, {name:"xyz.com"}, {name:"https://shop.lululemon.com/api/analytics/adobe/b/ss/blahblahblah"}]
+    }
+}
+async function datadog() { 
+  //////////// ACTUAL LOGIC GOES HERE!
+}
+async function runner () { 
+  console.log("NOTE: THis will pause for 15 seconds")
+  const x = await datadog() 
+  console.log("RESULT: " + x )
+} 
+runner() 
