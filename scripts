@@ -83,3 +83,63 @@ if ( found.length >= needed.length ) {
 console.error("found " + found.length + "  needed " + needed.length + "   isOk " + isOk )
 }
 return isOk
+
+###### A selinium script: 
+from seleniumwire import webdriver  # Import from seleniumwire
+from common import cyan, green,yellow,magenta
+import time
+driver = webdriver.Firefox()
+
+def isIgnore( candidate):
+    skip = [
+        "lululemon.com"
+    ]
+    ignore = False 
+    for x in skip: 
+        if x in candidate:
+            ignore = True
+    return ignore
+
+def gotoPage(url): 
+    driver.get(url) 
+    for x in range(30):
+        time.sleep(1)
+        cyan(x)
+
+    javascript_code = """
+    function collectNetworkCalls() {
+        var networkCalls = [];
+        var originalFetch = window.fetch;
+        window.fetch = function() {
+            var request = arguments[0];
+            networkCalls.push(request.url);
+
+            return originalFetch.apply(this, arguments);
+        };
+        return networkCalls;
+    }
+    return collectNetworkCalls();
+    """
+    # Execute the js get the results!
+    network_calls = driver.execute_script(javascript_code)
+    print("Network Calls:", network_calls)
+
+def finish():
+    for request in driver.requests:
+        if "google-analytics.com" in request.url: 
+            cyan( request.url)
+        else:
+            magenta(request.url )
+    driver.close() 
+
+if __name__ == "__main__":
+    urls = [ 
+        "https://shop.lululemon.com/"
+    ]
+    for x in urls: 
+        start_time = time.time()
+        gotoPage(x)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        cyan("{} {} ".format(elapsed_time, x))
+    finish()
